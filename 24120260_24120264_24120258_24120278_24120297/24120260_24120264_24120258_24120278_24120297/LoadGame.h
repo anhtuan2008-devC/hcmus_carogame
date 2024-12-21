@@ -10,7 +10,7 @@
 void loadBox();
 void deleteBox();
 void renameBox();
-bool fileExists(const string& filename);
+bool isFileExist(const std::string& filename);
 void TerminateProcessesUsingFile(const string& filename);
 wstring ConvertToWideString(const string& str);
 void DeleteFileWindows(const string& filename);

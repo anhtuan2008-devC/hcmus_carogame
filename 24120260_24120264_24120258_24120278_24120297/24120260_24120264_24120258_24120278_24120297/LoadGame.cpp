@@ -25,16 +25,6 @@ bool isFileExist(const std::string& filename) {
     return fs::exists(filename);
 }
 
-// Hàm kiểm tra xem tên file đã tồn tại chưa
-bool isFileExist(const std::string& filename, const std::string& directory) {
-    for (const auto& entry : fs::directory_iterator(directory)) {
-        if (fs::is_regular_file(entry) && entry.path().stem() == filename) {
-            return true; // Tồn tại file trùng tên
-        }
-    }
-    return false;
-}
-
 wstring ConvertToWideString(const string& str) {
     int size_needed = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), (int)str.size(), NULL, 0);
     wstring wstrTo(size_needed, 0);
@@ -58,9 +48,7 @@ void TerminateProcessesUsingFile(const string& filename) {
                 std::wstring wFilename = ConvertToWideString(filename);
                 DWORD dwRet = GetModuleFileNameEx(hProcess, NULL, (LPWSTR)wFilename.c_str(), MAX_PATH);
                 if (dwRet > 0 && wFilename == std::wstring(procEntry.szExeFile)) {
-                    cout << "Tien trinh '" << procEntry.szExeFile << "' đang su dung tep '" << filename << "'." << endl;
                     TerminateProcess(hProcess, 1);
-                    cout << "Da ket thuc tien trinh '" << procEntry.szExeFile << "'." << endl;
                 }
                 CloseHandle(hProcess);
             }

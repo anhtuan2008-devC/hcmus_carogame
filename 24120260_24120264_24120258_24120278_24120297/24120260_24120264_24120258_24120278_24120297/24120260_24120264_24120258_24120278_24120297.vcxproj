@@ -160,6 +160,7 @@
     <Media Include="Sounds\level-ii-short-236120.mp3" />
     <Media Include="Sounds\move.mp3" />
     <Media Include="Sounds\music.mp3" />
+    <Media Include="Sounds\Win.mp3" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="BackPorE.txt" />

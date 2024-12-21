@@ -93,6 +93,41 @@ void StartGame() {
     scoreO = 0;
     displayScore(0);
     moveCount(0);
+    // Viền X
+    BOX(2, 16, 16, 10);
+    // Viền O
+    BOX(20, 16, 16, 10);
+    // hien thi X truoc
+    SetConsoleOutputCP(CP_UTF8);
+    setColor(124);
+    GotoXY(4, 17);
+    cout << u8" ██╗  ██╗";
+    GotoXY(4, 18);
+    cout << u8" ╚██╗██╔╝  ";
+    GotoXY(4, 19);
+    cout << u8"  ╚███╔╝ ";
+    GotoXY(4, 20);
+    cout << u8"  ██╔██╗ ";
+    GotoXY(4, 21);
+    cout << u8" ██╔╝ ██╗";
+    GotoXY(4, 22);
+    cout << u8" ╚═╝  ╚═╝";
+    SetConsoleOutputCP(437);
+    // O den
+    SetConsoleOutputCP(CP_UTF8);
+    setColor(120);
+    GotoXY(22, 17);
+    cout << u8"  ██████╗ ";
+    GotoXY(22, 18);
+    cout << u8" ██╔═══██╗";
+    GotoXY(22, 19);
+    cout << u8" ██║   ██║";
+    GotoXY(22, 20);
+    cout << u8" ██║   ██║";
+    GotoXY(22, 21);
+    cout << u8" ╚██████╔╝";
+    GotoXY(22, 22);
+    cout << u8"  ╚═════╝";
 }
 
 void GabageCollect() {
@@ -345,6 +380,8 @@ void continueGame() {
     DrawBoard(BOARD_SIZE);
     moveCount(0);
     displayScore(0);
+
 }
+
 
 

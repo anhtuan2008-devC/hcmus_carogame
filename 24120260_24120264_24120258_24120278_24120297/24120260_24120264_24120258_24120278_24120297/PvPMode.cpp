@@ -76,9 +76,9 @@ void vienPlayer() {
 }
 
 void turnPlayer() {
-    if (!_TURN) {
+    if (_TURN == true) {
         SetConsoleOutputCP(CP_UTF8);
-        setColor(124);
+        setColor(120);
         GotoXY(4, 17);
         cout << u8" ██╗  ██╗";
         GotoXY(4, 18);
@@ -95,7 +95,7 @@ void turnPlayer() {
 
         // An O
         SetConsoleOutputCP(CP_UTF8);
-        setColor(120);
+        setColor(121);
         GotoXY(22, 17);
         cout << u8"  ██████╗ ";
         GotoXY(22, 18);
@@ -113,7 +113,7 @@ void turnPlayer() {
     else {
         // An X
         SetConsoleOutputCP(CP_UTF8);
-        setColor(120);
+        setColor(124);
         GotoXY(4, 17);
         cout << u8" ██╗  ██╗";
         GotoXY(4, 18);
@@ -129,7 +129,7 @@ void turnPlayer() {
         SetConsoleOutputCP(437);
         // Hien thi O
         SetConsoleOutputCP(CP_UTF8);
-        setColor(121);
+        setColor(120);
         GotoXY(22, 17);
         cout << u8"  ██████╗ ";
         GotoXY(22, 18);
@@ -216,7 +216,8 @@ int ProcessFinish(int pWhoWin) {
     GotoXY(0, _A[BOARD_SIZE - 1][BOARD_SIZE - 1].y + 2); // Nhảy tới vị trí thích hợp
     switch (pWhoWin) {
     case -1:
-        Sleep(500);
+        playSound(4, 0);
+        Sleep(800);
         SetConsoleOutputCP(CP_UTF8);
         setColor(124);
         GotoXY(85, 2);
@@ -318,7 +319,8 @@ int ProcessFinish(int pWhoWin) {
         Sleep(650);
         break;
     case 1:
-        Sleep(500);
+        playSound(4, 0);
+        Sleep(800);
         SetConsoleOutputCP(CP_UTF8);
         setColor(121);
         GotoXY(86, 2);
@@ -420,7 +422,8 @@ int ProcessFinish(int pWhoWin) {
         Sleep(650);
         break;
     case 0:
-        Sleep(500);
+        playSound(4, 0);
+        Sleep(800);
         SetConsoleOutputCP(CP_UTF8);
         setColor(122);
         GotoXY(85, 2);
@@ -543,7 +546,7 @@ int PlayWithPlayer() {
     ShowBlinkingCursor(true);
     system("color 70");
     StartGame();
-    vienPlayer();
+    SetConsoleOutputCP(437);
     gameText();
     GotoXY(_A[0][0].x + 1, _A[0][0].y);
     bool validEnter = true;
@@ -591,7 +594,41 @@ int PlayWithPlayer() {
                             }
                             else if (AskContinue() != 'N') {
                                 continueGame();
-                                vienPlayer();
+                                // Viền X
+                                BOX(2, 16, 16, 10);
+                                // Viền O
+                                BOX(20, 16, 16, 10);
+                                // hien thi X truoc
+                                SetConsoleOutputCP(CP_UTF8);
+                                setColor(124);
+                                GotoXY(4, 17);
+                                cout << u8" ██╗  ██╗";
+                                GotoXY(4, 18);
+                                cout << u8" ╚██╗██╔╝  ";
+                                GotoXY(4, 19);
+                                cout << u8"  ╚███╔╝ ";
+                                GotoXY(4, 20);
+                                cout << u8"  ██╔██╗ ";
+                                GotoXY(4, 21);
+                                cout << u8" ██╔╝ ██╗";
+                                GotoXY(4, 22);
+                                cout << u8" ╚═╝  ╚═╝";
+                                SetConsoleOutputCP(437);
+                                // O den
+                                SetConsoleOutputCP(CP_UTF8);
+                                setColor(120);
+                                GotoXY(22, 17);
+                                cout << u8"  ██████╗ ";
+                                GotoXY(22, 18);
+                                cout << u8" ██╔═══██╗";
+                                GotoXY(22, 19);
+                                cout << u8" ██║   ██║";
+                                GotoXY(22, 20);
+                                cout << u8" ██║   ██║";
+                                GotoXY(22, 21);
+                                cout << u8" ╚██████╔╝";
+                                GotoXY(22, 22);
+                                cout << u8"  ╚═════╝";
                                 gameText();
                                 GotoXY(_A[0][0].x, _A[0][0].y);
                                 break;

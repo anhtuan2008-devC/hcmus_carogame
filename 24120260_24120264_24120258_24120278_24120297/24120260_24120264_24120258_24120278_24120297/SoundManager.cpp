@@ -14,8 +14,6 @@ wstring getSongbyNum(short song) {
     case 2: return L"./Sounds/move.mp3";
     case 3: return L"./Sounds/chose.mp3";
     case 4: return L"./Sounds/Win.mp3";
-    case 5: return L"./Sounds/Draw.mp3";
-    case 6: return L"./Sounds/Lose.mp3";
     default: return L"";
     }
 }

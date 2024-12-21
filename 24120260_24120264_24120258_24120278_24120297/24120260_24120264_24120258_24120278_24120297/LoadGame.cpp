@@ -23,7 +23,6 @@ void TerminateProcessesUsingFile(const string& filename) {
         do {
             HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, procEntry.th32ProcessID);
             if (hProcess != NULL) {
-                // Kiểm tra handle của tệp đang sử dụng bởi tiến trình
                 std::wstring wFilename = ConvertToWideString(filename);
                 DWORD dwRet = GetModuleFileNameEx(hProcess, NULL, (LPWSTR)wFilename.c_str(), MAX_PATH);
                 if (dwRet > 0 && wFilename == std::wstring(procEntry.szExeFile)) {
@@ -401,13 +400,7 @@ void LoadGame() {
         }
     }
     box(40, 20, 45, 5, "Nhap ten file ma ban muon :");
-    GotoXY(1, 1);
-    cout << " Press Esc";
-    GotoXY(1, 2);
-    cout << "to back Menu";
-
-
-
+    box(1, 1, 21, 5, "Esc:back Menu");
 
     // hinh 1 
     GotoXY(10, 14);
@@ -521,7 +514,6 @@ void LoadGame() {
                     system("color 70");
                     fixConsoleWindow();
                     ResetData();
-                    vienPlayer();
                     gameText();
                     DrawBoard(BOARD_SIZE);
                     displayScore(0);
@@ -548,7 +540,80 @@ void LoadGame() {
                     _TURN = (turn == 1);
 
                     file.close();
+                    // Viền X
+                    BOX(2, 16, 16, 10);
+                    // Viền O
+                    BOX(20, 16, 16, 10);
+                    GotoXY(_A[0][0].x + 49, _A[0][0].y + 11);
+                    if (_TURN == false) {
+                        SetConsoleOutputCP(CP_UTF8);
+                        setColor(120);
+                        GotoXY(4, 17);
+                        cout << u8" ██╗  ██╗";
+                        GotoXY(4, 18);
+                        cout << u8" ╚██╗██╔╝  ";
+                        GotoXY(4, 19);
+                        cout << u8"  ╚███╔╝ ";
+                        GotoXY(4, 20);
+                        cout << u8"  ██╔██╗ ";
+                        GotoXY(4, 21);
+                        cout << u8" ██╔╝ ██╗";
+                        GotoXY(4, 22);
+                        cout << u8" ╚═╝  ╚═╝";
+                        SetConsoleOutputCP(437);
 
+                        // An O
+                        SetConsoleOutputCP(CP_UTF8);
+                        setColor(121);
+                        GotoXY(22, 17);
+                        cout << u8"  ██████╗ ";
+                        GotoXY(22, 18);
+                        cout << u8" ██╔═══██╗";
+                        GotoXY(22, 19);
+                        cout << u8" ██║   ██║";
+                        GotoXY(22, 20);
+                        cout << u8" ██║   ██║";
+                        GotoXY(22, 21);
+                        cout << u8" ╚██████╔╝";
+                        GotoXY(22, 22);
+                        cout << u8"  ╚═════╝";
+                        SetConsoleOutputCP(437);
+                    }
+                    else {
+                        // An X
+                        SetConsoleOutputCP(CP_UTF8);
+                        setColor(124);
+                        GotoXY(4, 17);
+                        cout << u8" ██╗  ██╗";
+                        GotoXY(4, 18);
+                        cout << u8" ╚██╗██╔╝  ";
+                        GotoXY(4, 19);
+                        cout << u8"  ╚███╔╝ ";
+                        GotoXY(4, 20);
+                        cout << u8"  ██╔██╗ ";
+                        GotoXY(4, 21);
+                        cout << u8" ██╔╝ ██╗";
+                        GotoXY(4, 22);
+                        cout << u8" ╚═╝  ╚═╝";
+                        SetConsoleOutputCP(437);
+                        // Hien thi O
+                        SetConsoleOutputCP(CP_UTF8);
+                        setColor(120);
+                        GotoXY(22, 17);
+                        cout << u8"  ██████╗ ";
+                        GotoXY(22, 18);
+                        cout << u8" ██╔═══██╗";
+                        GotoXY(22, 19);
+                        cout << u8" ██║   ██║";
+                        GotoXY(22, 20);
+                        cout << u8" ██║   ██║";
+                        GotoXY(22, 21);
+                        cout << u8" ╚██████╔╝";
+                        GotoXY(22, 22);
+                        cout << u8"  ╚═════╝";
+                        SetConsoleOutputCP(437);
+                    }
+                    setColor(112);
                     bool validEnter = true;
                     while (true) {
                         char command = getInput();

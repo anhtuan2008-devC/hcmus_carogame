@@ -292,6 +292,8 @@ void SaveGame() {
     GotoXY(46, 23);
     cout << char(223);
 
+    saveCount = 0;
+
     // Duyệt qua tất cả các tệp trong thư mục SaveGame
     for (const auto& entry : fs::directory_iterator("./SaveGame")) {
         if (entry.is_regular_file() && entry.path().extension() == "") {
@@ -299,17 +301,17 @@ void SaveGame() {
         }
     }
 
-    if (saveCount >= 11) {
+    if (saveCount >= 8) {
         setColor(Red);
         GotoXY(42, 25);
-        cout << "Cannot save. Over 10 games." << endl;
+        cout << "Cannot save. Over 8 games." << endl;
         Sleep(2000);
         menuScreen();
         return; // Không cho phép lưu nếu đã có 10 game
     }
 
     string filename;
-    while (saveCount <= 10) {
+    while (saveCount < 8) {
         setColor(White2);
         GotoXY(38, 25);
         cout << string(50, ' '); // Xóa nội dung cũ

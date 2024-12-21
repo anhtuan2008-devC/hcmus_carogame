@@ -1,7 +1,6 @@
 ﻿#include "LoadGame.h"
 
-#include <tlhelp32.h>
-#include <psapi.h>
+int saveCount = 0;
 
 void loadBox() {
     BOX(20, 25, 20, 3);
@@ -20,6 +19,20 @@ void renameBox() {
     BOX(84, 25, 20, 3); 
     GotoXY(90, 25);
     cout << "Rename";
+}
+
+bool isFileExist(const std::string& filename) {
+    return fs::exists(filename);
+}
+
+// Hàm kiểm tra xem tên file đã tồn tại chưa
+bool isFileExist(const std::string& filename, const std::string& directory) {
+    for (const auto& entry : fs::directory_iterator(directory)) {
+        if (fs::is_regular_file(entry) && entry.path().stem() == filename) {
+            return true; // Tồn tại file trùng tên
+        }
+    }
+    return false;
 }
 
 wstring ConvertToWideString(const string& str) {
@@ -82,10 +95,6 @@ void DeleteFileWindows(const string& filename) {
         }
     }
 }
-
-
-
-
 
 // Hàm đổi tên tệp
 void RenameFile(const string& oldName, const string& newName) {
@@ -294,13 +303,40 @@ void SaveGame() {
     GotoXY(46, 23);
     cout << char(223);
 
-    int saveCount = 0;
+    // Kiểm tra số lượng game đã lưu trong thư mục (giới hạn 10 game)
+    for (const auto& entry : fs::directory_iterator("./")) {
+        if (entry.is_regular_file() && entry.path().extension() == ".txt") {
+            saveCount++;  // Đếm số lượng tệp .txt
+        }
+    }
+
+    if (saveCount >= 19) {
+        setColor(Red);
+        GotoXY(42, 25);
+        cout << "Cannot save. Over 10 games." << endl;
+        Sleep(2000);
+        menuScreen();
+        return; // Không cho phép lưu nếu đã có 10 game
+    }
+
     string filename;
-    while (saveCount <= 10) {
+    while (saveCount <= 18) {
+        setColor(White2);
+        GotoXY(38, 25);
+        cout << string(50, ' '); // Xóa nội dung cũ
+        setColor(7);
         box(35, 8, 50, 5, "Enter a name to save game:");
         setColor(2);
         GotoXY(66, 9);
         cin >> filename;
+        // Kiểm tra xem tên game đã tồn tại hay chưa
+        if (isFileExist(filename)) {
+            setColor(Red);
+            GotoXY(38, 25);
+            cout << "File already exists. Please choose another name." << endl;
+            Sleep(2000);
+            continue; // Yêu cầu nhập lại tên nếu trùng
+        }
         setColor(7);
         ofstream file(filename);
         if (file.is_open()) {
@@ -312,12 +348,11 @@ void SaveGame() {
             }
             file << (_TURN ? 1 : 0) << "\n";
             file.close();
-            saveCount++;
             playSound(3, 0);
-            clearScreen();
-          /*  GotoXY(65, 20);
-            cout << "Game da duoc luu" << endl;*/
-            Sleep(100);
+            setColor(Red);
+            GotoXY(42, 25);
+            cout << "Game is saved!!!" << endl;
+            Sleep(2000);
             menuScreen();
             break;
         }
@@ -327,9 +362,11 @@ void SaveGame() {
         break;
     }
     if (saveCount > 10) {
-        GotoXY(65, 23);
+        setColor(Red);
+        GotoXY(42, 25);
         cout << "Cannot save. Over 10 games." << endl;
-        return;
+        Sleep(2000);
+        menuScreen();
     }
 
 }
@@ -736,7 +773,6 @@ void LoadGame() {
             case 1:
                 playSound(3, 0);
                 clearScreen();
-                /*file.is_open();*/
                 file.close();
                 DeleteFileWindows(filename);
                 clearScreen();
@@ -751,7 +787,6 @@ void LoadGame() {
                 GotoXY(58, 9);
                 cin >> filename2;
                 setColor(Black);
-               /* file.is_open();*/
                 file.close();
                 RenameFile(filename, filename2);
                 clearScreen();

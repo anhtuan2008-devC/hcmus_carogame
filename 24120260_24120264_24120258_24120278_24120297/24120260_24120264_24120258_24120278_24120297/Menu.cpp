@@ -444,17 +444,18 @@ void trangtri() {
 
     // icon
     setColor(20);
-    GotoXY(52, 8);
-    cout << u8R"(🎮   🕹️   👾)";
-    GotoXY(52, 12);
-    cout << u8R"(🔄   💾   ⏳)";
-    GotoXY(49, 16);
-    cout << u8R"(🚢  🆘  🛟  🚨  📢)";
-    GotoXY(52, 20);
-    cout << u8R"(⚙️   ☣︎    ⏲ )";
-    GotoXY(52, 24);
-    cout << u8R"(🔚  ❌  🏃  🚪)";
-    ////// Vẽ Mồn Lèo 
+    GotoXY(53, 8);
+    cout << u8R"(🎮   🎮   🎮)";
+    GotoXY(53, 12);
+    cout << u8R"(💾   💾   💾)";
+    GotoXY(53, 16);
+    cout << u8R"(🛟   🛟   🛟)";
+    GotoXY(53, 20);
+    cout << u8R"(⚙️   ⚙️   ⚙️)";
+    GotoXY(53, 24);
+    cout << u8R"(🚪   🚪   🚪)";
+
+    ////// Vẽ meo
     // vẽ nền đen 
     setColor(0);
     GotoXY(81, 10);
@@ -908,17 +909,6 @@ void hienthimenu() {
     int selection = 0, previousSelection = -1;
     int _X = 52, _Y = 10;
     do {
-
-        /*GotoXY(50, _Y);
-        cout << ">>";
-        GotoXY(61, _Y);
-        cout << "<<";
-        GotoXY(_X, _Y);
-        GotoXY(50, _Y);
-        cout << "  ";
-        GotoXY(61, _Y);
-        cout << "  ";*/
-
         if (selection != previousSelection) {
             // Đổi màu cho ô được chọn
             for (int i = 0; i < 5; i++) {
@@ -969,7 +959,7 @@ void hienthimenu() {
                 break;
             case 4:
                 clearScreen();
-                cout << "Ban da thoat!!!" << endl << endl << endl << endl << endl << endl;
+                cout << "Ban da thoat!!!" << endl << endl << endl << endl << endl << endl<< endl << endl << endl << endl << endl << endl << endl << endl << endl << endl << endl << endl << endl << endl << endl;
                 exit(100);
                 break;
             }

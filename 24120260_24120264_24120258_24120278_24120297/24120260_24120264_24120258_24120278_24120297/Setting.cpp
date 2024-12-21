@@ -3,7 +3,7 @@
 void vechuSETTING() {
     SetConsoleOutputCP(CP_UTF8);
     GotoXY(0, 0);
-    setColor(Red2);
+    setColor(Black);
     cout << u8R"(                                                            
                  ██████                             ████                                 
                ██████████            █████   ████                                    

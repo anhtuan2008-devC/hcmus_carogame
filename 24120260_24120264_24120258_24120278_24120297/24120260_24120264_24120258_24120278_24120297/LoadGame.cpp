@@ -400,7 +400,9 @@ void LoadGame() {
         }
     }
     box(40, 20, 45, 5, "Nhap ten file ma ban muon :");
-    box(1, 1, 21, 5, "Esc:back Menu");
+    BOX(1, 1, 15, 3);
+    GotoXY(1, 1);
+    cout << "Esc:back Menu";
 
     // hinh 1 
     GotoXY(10, 14);

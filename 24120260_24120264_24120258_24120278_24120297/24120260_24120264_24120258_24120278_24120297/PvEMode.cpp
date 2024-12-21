@@ -7,6 +7,43 @@ void BotMove(int mode) {
     }
 }
 
+void gameBotText() {
+    SetConsoleOutputCP(CP_UTF8);
+    GotoXY(6, 25);
+    cout << u8"⭡ - up";
+    GotoXY(6, 26);
+    cout << u8"⭣ - down";
+    GotoXY(6, 27);
+    cout << u8"⭠ - left";
+    GotoXY(6, 28);
+    cout << u8"⭢ - right";
+    GotoXY(2, 29);
+    cout << "Enter - tick";
+    SetConsoleOutputCP(437);
+    setColor(121);
+    SetConsoleOutputCP(CP_UTF8);
+    GotoXY(6, 25);
+    cout << u8"⭡";
+    GotoXY(6, 26);
+    cout << u8"⭣";
+    GotoXY(6, 27);
+    cout << u8"⭠";
+    GotoXY(6, 28);
+    cout << u8"⭢";
+    GotoXY(2, 29);
+    cout << "Enter";
+    SetConsoleOutputCP(437);
+    // khac
+    setColor(132);
+    GotoXY(50, 29);
+    cout << "Esc - pause";
+
+    GotoXY(63, 29);
+    cout << "L - save";
+
+    setColor(112);
+}
+
 int countConsecutive(int row, int col, int dx, int dy, int player) {
     int count = 0;
     int r = row + dx, c = col + dy;
@@ -194,7 +231,7 @@ void PlayWithBot() {
     system("color 70");
     fixConsoleWindow();
     StartGame();
-    gameText();
+    gameBotText();
     int x = 0, y = 0; // Tọa độ bắt đầu (trên bàn cờ)
     bool isPlaying = true;
     int result;

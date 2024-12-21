@@ -297,9 +297,11 @@ void SaveGame() {
     int saveCount = 0;
     string filename;
     while (saveCount <= 10) {
-        box(35, 8, 50, 5, "Nhap ten file de luu game:");
-        GotoXY(65, 9);
+        box(35, 8, 50, 5, "Enter a name to save game:");
+        setColor(2);
+        GotoXY(66, 9);
         cin >> filename;
+        setColor(7);
         ofstream file(filename);
         if (file.is_open()) {
             for (int i = 0; i < BOARD_SIZE; i++) {
@@ -311,20 +313,22 @@ void SaveGame() {
             file << (_TURN ? 1 : 0) << "\n";
             file.close();
             saveCount++;
-            GotoXY(65, 20);
-            cout << "Game da duoc luu" << endl;
+            playSound(3, 0);
             clearScreen();
+          /*  GotoXY(65, 20);
+            cout << "Game da duoc luu" << endl;*/
+            Sleep(100);
             menuScreen();
             break;
         }
         else {
-            cerr << "Khong the mo file de luu!" << endl;
+            cerr << "Cannot save game!" << endl;
         }
         break;
     }
     if (saveCount > 10) {
         GotoXY(65, 23);
-        cout << "Da luu qua 10 lan" << endl;
+        cout << "Cannot save. Over 10 games." << endl;
         return;
     }
 
@@ -410,7 +414,9 @@ void LoadGame() {
     int i = 10;
     string directory = ".";
     GotoXY(50, 9);
-    cout << "Danh sach cac gane da luu:\n";
+    setColor(Red);
+    cout << "SAVED GAME LIST\n";
+    setColor(Black);
     for (const auto& entry : fs::directory_iterator(directory)) {
         if (filesystem::is_regular_file(entry) && entry.path().extension().empty()) {
             GotoXY(55, i);
@@ -418,7 +424,7 @@ void LoadGame() {
             i++;
         }
     }
-    box(40, 20, 45, 5, "Nhap ten file ma ban muon :");
+    box(40, 20, 45, 5, "Enter the game's name:");
     BOX(1, 1, 15, 3);
     GotoXY(1, 1);
     cout << "Esc:back Menu";
@@ -471,8 +477,8 @@ void LoadGame() {
     cout << char(220) << char(219) << char(223);
     string filename;
     char key;
-    setColor(117);
-    GotoXY(72, 21);
+    setColor(Pink2);
+    GotoXY(67, 21);
 
     filename = "";
     while (true) {
@@ -701,8 +707,11 @@ void LoadGame() {
                         Sleep(100);
                     }
                 }
-                else {
-                    clearScreen();
+                if (!file.is_open()) {
+                    GotoXY(43, 18);
+                    setColor(Red);
+                    cout << "Please enter a suitable name!!!";
+                    setColor(Black);
                     LoadGame();
                 }
                 file.close();
@@ -710,7 +719,7 @@ void LoadGame() {
             case 1:
                 playSound(3, 0);
                 clearScreen();
-                file.is_open();
+                /*file.is_open();*/
                 file.close();
                 DeleteFileWindows(filename);
                 clearScreen();
@@ -720,10 +729,12 @@ void LoadGame() {
                 playSound(3, 0);
                 clearScreen();
                 string filename2;
-                box(35, 8, 50, 5, "Nhap ten file ma ban muon doi : ");
-                GotoXY(71, 9);
+                box(35, 8, 50, 5, "Enter a new name: ");
+                setColor(Red);
+                GotoXY(58, 9);
                 cin >> filename2;
-                file.is_open();
+                setColor(Black);
+               /* file.is_open();*/
                 file.close();
                 RenameFile(filename, filename2);
                 clearScreen();

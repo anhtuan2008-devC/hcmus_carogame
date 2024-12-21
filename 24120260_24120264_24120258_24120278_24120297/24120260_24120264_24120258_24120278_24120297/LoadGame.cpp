@@ -424,7 +424,7 @@ void LoadGame() {
             i++;
         }
     }
-    box(40, 20, 45, 5, "Enter the game's name:");
+   /* box(40, 20, 45, 5, "Enter the game's name:");*/
     BOX(1, 1, 15, 3);
     GotoXY(1, 1);
     cout << "Esc:back Menu";
@@ -482,29 +482,53 @@ void LoadGame() {
 
     filename = "";
     while (true) {
-        key = _getch();
+        filename.clear();
+        cout << string(30, ' '); // Xóa nội dung cũ
+        setColor(Black);
+        box(40, 20, 45, 5, "Enter the game name:");
+        setColor(Pink2);
+        GotoXY(65, 21);
+        char key;
+        while (true) {
+            key = _getch();
+            if (key == 27) { // Nhấn Esc
+                playSound(3, 0);
+                clearScreen();
+                menuScreen();
+                return; // Thoát ra ngoài
+            }
+            else if (key == '\r') { // Nhấn Enter
+                if (!filename.empty()) break; // Nếu đã nhập tên
+            }
+            else if (key == '\b') { // Nhấn Backspace
+                if (!filename.empty()) {
+                    filename.pop_back();
+                    cout << "\b \b"; // Xóa ký tự cuối
+                }
+            }
+            else {
+                filename += key;
+                cout << key;
+            }
+        }
 
-        if (key == 27) {
-            playSound(3, 0);
-            clearScreen();
-            menuScreen();
-        }
-        else if (key == '\r') {
-            if (!filename.empty()) {
-                break;
-            }
-        }
-        else if (key == '\b') {
-            if (!filename.empty()) {
-                filename.pop_back();
-                cout << "\b \b";
-            }
+        // Kiểm tra tệp
+        ifstream file(filename);
+        if (file.is_open()) {
+            file.close();
+            break; // Nếu tệp tồn tại, thoát vòng lặp
         }
         else {
-            filename += key;
-            cout << key;
+            GotoXY(41, 18);
+            setColor(Red);
+            cout << "File not found. Please enter a valid name!";
+            setColor(Black);
+            Sleep(1500); // Đợi 1.5 giây để người dùng đọc thông báo
+            GotoXY(41, 18);
+            cout << string(50, ' '); // Xóa thông báo
         }
     }
+
 
     loadBox();
     deleteBox();
@@ -706,13 +730,6 @@ void LoadGame() {
                         }
                         Sleep(100);
                     }
-                }
-                if (!file.is_open()) {
-                    GotoXY(43, 18);
-                    setColor(Red);
-                    cout << "Please enter a suitable name!!!";
-                    setColor(Black);
-                    LoadGame();
                 }
                 file.close();
                 break;

@@ -173,7 +173,7 @@ void gameText() {
     // khac
     setColor(132);
     GotoXY(50, 29);
-    cout << "Esc - pause";
+    cout << "Esc - exit";
 
     GotoXY(63, 29);
     cout << "L - save";

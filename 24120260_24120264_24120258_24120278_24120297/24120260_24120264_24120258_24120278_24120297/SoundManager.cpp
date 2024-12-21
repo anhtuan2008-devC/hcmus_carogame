@@ -10,7 +10,7 @@ short effectVolume = 400;     // Âm lượng cho âm thanh trò chơi
 // Function to get song path by number
 wstring getSongbyNum(short song) {
     switch (song) {
-    case 1: return L"./Sounds/level-ii-short-236120.mp3"; // Âm thanh nền
+    case 1: return L"./Sounds/music.mp3"; // Âm thanh nền
     case 2: return L"./Sounds/move.mp3";
     case 3: return L"./Sounds/chose.mp3";
     case 4: return L"./Sounds/Win.mp3";

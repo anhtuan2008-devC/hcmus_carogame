@@ -91,9 +91,6 @@
     <Media Include="Sounds\move.mp3">
       <Filter>Resource Files</Filter>
     </Media>
-    <Media Include="Sounds\level-ii-short-236120.mp3">
-      <Filter>Resource Files</Filter>
-    </Media>
     <Media Include="Sounds\Win.mp3">
       <Filter>Resource Files</Filter>
     </Media>

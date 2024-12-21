@@ -157,7 +157,6 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="Sounds\chose.mp3" />
-    <Media Include="Sounds\level-ii-short-236120.mp3" />
     <Media Include="Sounds\move.mp3" />
     <Media Include="Sounds\music.mp3" />
     <Media Include="Sounds\Win.mp3" />

@@ -3,6 +3,25 @@
 #include <tlhelp32.h>
 #include <psapi.h>
 
+void loadBox() {
+    BOX(20, 25, 20, 3);
+    GotoXY(27, 25);
+    cout << "Load";
+    
+}
+
+void deleteBox() {
+    BOX(52, 25, 20, 3);
+    GotoXY(58, 25);
+    cout << "Delete";
+}
+
+void renameBox() {
+    BOX(84, 25, 20, 3); 
+    GotoXY(90, 25);
+    cout << "Rename";
+}
+
 wstring ConvertToWideString(const string& str) {
     int size_needed = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), (int)str.size(), NULL, 0);
     wstring wstrTo(size_needed, 0);
@@ -481,18 +500,18 @@ void LoadGame() {
         }
     }
 
-    box(20, 25, 20, 5, "Load Game");
-    box(52, 25, 20, 5, "Xoa File");
-    box(84, 25, 20, 5, "Doi Ten");
+    loadBox();
+    deleteBox();
+    renameBox();
     ifstream file(filename);
     int selection = 0;
     while (true) {
         for (int i = 0; i < 3; i++) {
             setColor(i == selection ? 124 : 112);
             switch (i) {
-            case 0: box(20, 25, 20, 5, "Load Game"); break;
-            case 1: box(52, 25, 20, 5, "Xoa File");; break;
-            case 2: box(84, 25, 20, 5, "Doi Ten");; break;
+            case 0: loadBox(); break;
+            case 1: deleteBox(); break;
+            case 2: renameBox(); break;
             }
             Sleep(10);
         }

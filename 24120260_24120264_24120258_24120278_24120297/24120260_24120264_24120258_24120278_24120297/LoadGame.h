@@ -4,6 +4,9 @@
 #include "Chessboard.h"
 #include "PvPMode.h"
 
+void loadBox();
+void deleteBox();
+void renameBox();
 void TerminateProcessesUsingFile(const string& filename);
 wstring ConvertToWideString(const string& str);
 void DeleteFileWindows(const string& filename);

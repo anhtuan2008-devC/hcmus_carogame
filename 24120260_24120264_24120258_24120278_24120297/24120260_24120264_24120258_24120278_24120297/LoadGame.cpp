@@ -1,6 +1,7 @@
 ﻿#include "LoadGame.h"
 
 int saveCount = 0;
+string folder = "SaveGame/";
 
 void loadBox() {
     BOX(20, 25, 20, 3);
@@ -291,14 +292,14 @@ void SaveGame() {
     GotoXY(46, 23);
     cout << char(223);
 
-    // Kiểm tra số lượng game đã lưu trong thư mục (giới hạn 10 game)
-    for (const auto& entry : fs::directory_iterator("./")) {
-        if (entry.is_regular_file() && entry.path().extension() == ".txt") {
+    // Duyệt qua tất cả các tệp trong thư mục SaveGame
+    for (const auto& entry : fs::directory_iterator("./SaveGame")) {
+        if (entry.is_regular_file() && entry.path().extension() == "") {
             saveCount++;  // Đếm số lượng tệp .txt
         }
     }
 
-    if (saveCount >= 19) {
+    if (saveCount >= 11) {
         setColor(Red);
         GotoXY(42, 25);
         cout << "Cannot save. Over 10 games." << endl;
@@ -308,7 +309,7 @@ void SaveGame() {
     }
 
     string filename;
-    while (saveCount <= 18) {
+    while (saveCount <= 10) {
         setColor(White2);
         GotoXY(38, 25);
         cout << string(50, ' '); // Xóa nội dung cũ
@@ -318,7 +319,7 @@ void SaveGame() {
         GotoXY(66, 9);
         cin >> filename;
         // Kiểm tra xem tên game đã tồn tại hay chưa
-        if (isFileExist(filename)) {
+        if (isFileExist(folder + filename)) {
             setColor(Red);
             GotoXY(38, 25);
             cout << "File already exists. Please choose another name." << endl;
@@ -326,7 +327,7 @@ void SaveGame() {
             continue; // Yêu cầu nhập lại tên nếu trùng
         }
         setColor(7);
-        ofstream file(filename);
+        ofstream file(folder + filename);
         if (file.is_open()) {
             for (int i = 0; i < BOARD_SIZE; i++) {
                 for (int j = 0; j < BOARD_SIZE; j++) {
@@ -349,14 +350,6 @@ void SaveGame() {
         }
         break;
     }
-    if (saveCount > 10) {
-        setColor(Red);
-        GotoXY(42, 25);
-        cout << "Cannot save. Over 10 games." << endl;
-        Sleep(2000);
-        menuScreen();
-    }
-
 }
 
 
@@ -437,19 +430,20 @@ void LoadGame() {
     cout << char(219) << char(219) << char(220) << char(220) << char(220) << char(220);
 
     int i = 10;
-    string directory = ".";
     GotoXY(50, 9);
     setColor(Red);
     cout << "SAVED GAME LIST\n";
     setColor(Black);
+    std::string directory = "SaveGame";  // Thư mục SaveGame
+
     for (const auto& entry : fs::directory_iterator(directory)) {
-        if (filesystem::is_regular_file(entry) && entry.path().extension().empty()) {
+        if (fs::is_regular_file(entry) && entry.path().extension().empty()) {
             GotoXY(55, i);
-            cout << entry.path().stem() << endl;
+            std::cout << entry.path().stem() << std::endl;
             i++;
         }
     }
-   /* box(40, 20, 45, 5, "Enter the game's name:");*/
+
     BOX(1, 1, 15, 3);
     GotoXY(1, 1);
     cout << "Esc:back Menu";
@@ -538,7 +532,7 @@ void LoadGame() {
         }
 
         // Kiểm tra tệp
-        ifstream file(filename);
+        ifstream file(folder + filename);
         if (file.is_open()) {
             file.close();
             break; // Nếu tệp tồn tại, thoát vòng lặp
@@ -558,7 +552,7 @@ void LoadGame() {
     loadBox();
     deleteBox();
     renameBox();
-    ifstream file(filename);
+    ifstream file(folder + filename);
     int selection = 0;
     while (true) {
         for (int i = 0; i < 3; i++) {
@@ -762,7 +756,7 @@ void LoadGame() {
                 playSound(3, 0);
                 clearScreen();
                 file.close();
-                DeleteFileWindows(filename);
+                DeleteFileWindows(folder + filename);
                 clearScreen();
                 LoadGame();
                 break;
@@ -776,7 +770,7 @@ void LoadGame() {
                 cin >> filename2;
                 setColor(Black);
                 file.close();
-                RenameFile(filename, filename2);
+                RenameFile(folder + filename, folder + filename2);
                 clearScreen();
                 LoadGame();
                 break;

@@ -1,16 +1,18 @@
 ﻿#include "GameOption.h"
 
+string de = "Asset/";
+
 void PorEBackground() {
     SetConsoleOutputCP(CP_UTF8);
-    printAsciiArt("PorEBg.txt", 0, 1);
+    printAsciiArt(de + "PorEBg.txt", 0, 1);
     setColor(Green);
-    printAsciiArt("Dog.txt", 68, 0);
+    printAsciiArt(de + "Dog.txt", 68, 0);
     setColor(Yellow);
-    printAsciiArt("Magic.txt", 38, 2);
+    printAsciiArt(de + "Magic.txt", 38, 2);
     setColor(Blue2);
-    printAsciiArt("Woof.txt", 45, 21);
+    printAsciiArt(de + "Woof.txt", 45, 21);
     setColor(Pink);
-    printAsciiArt("Meow.txt", 70, 25);
+    printAsciiArt(de + "Meow.txt", 70, 25);
     SetConsoleOutputCP(437);
     setColor(Red);
     GotoXY(64, 26);
@@ -20,7 +22,7 @@ void PorEBackground() {
 void BackChar() {
     SetConsoleOutputCP(CP_UTF8);
     setColor(White);
-    printAsciiArt("Clear.txt", 78, 0);
+    printAsciiArt(de + "Clear.txt", 78, 0);
     veconmeo(78, 5);
     SetConsoleOutputCP(437);
     setColor(Black);
@@ -30,9 +32,9 @@ void BackChar() {
 void PvPChar() {
     SetConsoleOutputCP(CP_UTF8);
     setColor(White);
-    printAsciiArt("Clear.txt", 78, 0);
+    printAsciiArt(de + "Clear.txt", 78, 0);
     setColor(Black);
-    printAsciiArt("PvP.txt", 80, 5);
+    printAsciiArt(de + "PvP.txt", 80, 5);
     setColor(White);
     GotoXY(112, 18);
     cout << u8"▒▒";
@@ -119,9 +121,9 @@ void PvPChar() {
 void PvEChar() {
     SetConsoleOutputCP(CP_UTF8);
     setColor(White);
-    printAsciiArt("Clear.txt", 78, 0);
+    printAsciiArt(de + "Clear.txt", 78, 0);
     setColor(Pink2);
-    printAsciiArt("PvE.txt", 80, 3);
+    printAsciiArt(de + "PvE.txt", 80, 3);
 
     SetConsoleOutputCP(437);
     setColor(Black);

@@ -10,3 +10,4 @@ void BackChar();
 void boxBack();
 void PvEChar();
 void veconmeo(int x, int y);
+void DOGS(int x, int y);

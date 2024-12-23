@@ -60,31 +60,6 @@ void drawInstructions() {
 }
 
 
-void handleVolume() {
-    short volume = 500; // Giá trị âm lượng ban đầu
-
-    while (true) {
-        // Chỉ vẽ lại những phần cần thiết
-        drawVolumeBar(volume);  // Vẽ lại thanh âm lượng
-        drawInstructions();  // Vẽ hướng dẫn
-
-        // Tăng giảm âm lượng bằng cách nhấn phím
-        if (_kbhit()) {
-            char ch = _getch();  // Đọc phím nhấn
-            if (ch == 'p') {  // Nếu nhấn phím 'p'
-                volume = min(volume + 50, 1000);  // Tăng âm lượng, tối đa là 1000
-            }
-            else if (ch == 'o') {  // Nếu nhấn phím 'o'
-                volume = max(volume - 50, 0);  // Giảm âm lượng, tối thiểu là 0
-            }
-            else if (ch == 27) {  // Nếu nhấn phím ESC (mã ASCII là 27)
-                break;  // Thoát khỏi vòng lặp
-            }
-        }
-
-        Sleep(100);  // Thời gian chờ (giảm tải CPU)
-    }
-}
 void settingScreen() {
     system("color 70");
     short backgroundVolume = getBackgroundVolume();

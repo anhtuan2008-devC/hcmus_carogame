@@ -1,12 +1,5 @@
 ﻿#include "PvEMode.h"
 
-void BotMove(int mode) {
-    Sleep(10);
-    if (mode == 1) {
-        hardMode();
-    }
-}
-
 void gameBotText() {
     SetConsoleOutputCP(CP_UTF8);
     GotoXY(6, 25);
@@ -35,11 +28,8 @@ void gameBotText() {
     SetConsoleOutputCP(437);
     // khac
     setColor(132);
-    GotoXY(50, 29);
-    cout << "Esc - exit";
-
-    GotoXY(63, 29);
-    cout << "L - save";
+    GotoXY(55, 29);
+    cout <<"Esc - exit";
 
     setColor(112);
 }
@@ -103,7 +93,8 @@ int evaluateMove(int row, int col, int player) {
     return score;
 }
 
-void hardMode() {
+void botMove() {
+    Sleep(30);
     srand(static_cast<unsigned>(time(0))); // Khởi tạo seed cho random
     int bestScore = -1;
     int bestX = -1, bestY = -1;
@@ -124,18 +115,7 @@ void hardMode() {
         }
     }
 
-    // 2. Ưu tiên hoàn thành chuỗi 4 của bot
-    for (int i = 0; i < BOARD_SIZE; ++i) {
-        for (int j = 0; j < BOARD_SIZE; ++j) {
-            if (_A[i][j].c == 0 && isThreat(i, j, 1)) { // Ô trống và có thể tạo chuỗi 4
-                bestX = i;
-                bestY = j;
-                goto CHOOSE_MOVE; // Chọn ngay nước đi này
-            }
-        }
-    }
-
-    // 3. Chặn chuỗi 5 của đối thủ
+    // 2. Chặn chuỗi 5 của đối thủ
     for (int i = 0; i < BOARD_SIZE; ++i) {
         for (int j = 0; j < BOARD_SIZE; ++j) {
             if (_A[i][j].c == 0) { // Ô trống
@@ -151,6 +131,19 @@ void hardMode() {
         }
     }
 
+
+    // 3. Ưu tiên hoàn thành chuỗi 4 của bot
+    for (int i = 0; i < BOARD_SIZE; ++i) {
+        for (int j = 0; j < BOARD_SIZE; ++j) {
+            if (_A[i][j].c == 0 && isThreat(i, j, 1)) { // Ô trống và có thể tạo chuỗi 4
+                bestX = i;
+                bestY = j;
+                goto CHOOSE_MOVE; // Chọn ngay nước đi này
+            }
+        }
+    }
+
+   
     // 4. Chặn chuỗi 4 của đối thủ
     for (int i = 0; i < BOARD_SIZE; ++i) {
         for (int j = 0; j < BOARD_SIZE; ++j) {
@@ -192,8 +185,6 @@ CHOOSE_MOVE:
     GotoXY(_A[bestX][bestY].x + 1, _A[bestX][bestY].y);
     cout << O(); // Hiển thị nước đi của máy
 }
-
-
 
 
 bool checkWin(int row, int col, int player) {
@@ -280,7 +271,7 @@ void PlayWithBot() {
         }
         else {
             // Lượt máy
-            BotMove(1);
+            botMove();
             setColor(112);
             moveCount(1);
             _TURN = true;

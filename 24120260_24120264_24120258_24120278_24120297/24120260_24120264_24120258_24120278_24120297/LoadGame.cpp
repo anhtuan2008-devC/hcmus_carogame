@@ -7,7 +7,7 @@ void loadBox() {
     BOX(20, 25, 20, 3);
     GotoXY(27, 25);
     cout << "Load";
-    
+
 }
 
 void deleteBox() {
@@ -17,13 +17,45 @@ void deleteBox() {
 }
 
 void renameBox() {
-    BOX(84, 25, 20, 3); 
+    BOX(84, 25, 20, 3);
     GotoXY(90, 25);
     cout << "Rename";
 }
 
-bool isFileExist(const std::string& filename) {
+bool isFileExist(const string& filename) {
     return fs::exists(filename);
+}
+
+void clearFileData(const string& filePath) {
+    ofstream file(filePath, ios::trunc);
+    if (!file.is_open()) {
+        cerr << "Error: Cannot open file to clear data!" << endl;
+        return;
+    }
+    file.close();
+}
+
+
+void updateGame(const string& folder, const string& filename) {
+    string filePath = folder + filename;
+    ofstream file(filePath, ios::trunc);
+    if (!file.is_open()) {
+        cerr << "Error: Cannot open file '" << filePath << "' to save the game!" << endl;
+        return;
+    }
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        for (int j = 0; j < BOARD_SIZE; j++) {
+            file << _A[i][j].c << " ";
+        }
+        file << "\n";
+    }
+    file << (_TURN ? 1 : 0) << "\n";
+    file.close();
+    GotoXY(50, 10);
+    setColor(Red2);
+    cout << "Game updated successfully!" << endl;
+    setColor(Black);
+    Sleep(2000);
 }
 
 wstring ConvertToWideString(const string& str) {
@@ -46,9 +78,9 @@ void TerminateProcessesUsingFile(const string& filename) {
         do {
             HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, procEntry.th32ProcessID);
             if (hProcess != NULL) {
-                std::wstring wFilename = ConvertToWideString(filename);
+                wstring wFilename = ConvertToWideString(filename);
                 DWORD dwRet = GetModuleFileNameEx(hProcess, NULL, (LPWSTR)wFilename.c_str(), MAX_PATH);
-                if (dwRet > 0 && wFilename == std::wstring(procEntry.szExeFile)) {
+                if (dwRet > 0 && wFilename == wstring(procEntry.szExeFile)) {
                     TerminateProcess(hProcess, 1);
                 }
                 CloseHandle(hProcess);
@@ -90,8 +122,10 @@ void RenameFile(const string& oldName, const string& newName) {
     try {
         fs::rename(oldName, newName);
         clearScreen();
+        setColor(Green);
         GotoXY(45, 15);
-        cout << "Da doi ten file tu " << oldName << " thanh " << newName << endl;
+        cout << "Successfully renaming the game!!!!" << endl;
+        setColor(Black);
     }
     catch (const fs::filesystem_error& e) {
         cout << "Loi khi đoi ten tep: " << e.what() << endl;
@@ -295,19 +329,24 @@ void SaveGame() {
     saveCount = 0;
 
     // Duyệt qua tất cả các tệp trong thư mục SaveGame
+    vector<fs::directory_entry> files;
     for (const auto& entry : fs::directory_iterator("./SaveGame")) {
-        if (entry.is_regular_file() && entry.path().extension() == "") {
-            saveCount++;  // Đếm số lượng tệp .txt
+        if (entry.is_regular_file()) {
+            files.push_back(entry);
+            saveCount++;
         }
     }
 
+    // Nếu có hơn 8 file, xóa file cũ nhất
     if (saveCount >= 8) {
-        setColor(Red);
-        GotoXY(42, 25);
-        cout << "Cannot save. Over 8 games." << endl;
-        Sleep(2000);
-        menuScreen();
-        return; // Không cho phép lưu nếu đã có 10 game
+        auto oldestFile = min_element(files.begin(), files.end(), [](const fs::directory_entry& a, const fs::directory_entry& b) {
+            return fs::last_write_time(a) < fs::last_write_time(b);
+            });
+
+        if (oldestFile != files.end()) {
+            fs::remove(oldestFile->path());
+            saveCount--; // Giảm số lượng file sau khi xóa
+        }
     }
 
     string filename;
@@ -320,16 +359,18 @@ void SaveGame() {
         setColor(2);
         GotoXY(66, 9);
         cin >> filename;
+
         // Kiểm tra xem tên game đã tồn tại hay chưa
-        if (isFileExist(folder + filename)) {
+        if (isFileExist(folder + filename + ".txt")) {
             setColor(Red);
             GotoXY(38, 25);
             cout << "File already exists. Please choose another name." << endl;
             Sleep(2000);
             continue; // Yêu cầu nhập lại tên nếu trùng
         }
+
         setColor(7);
-        ofstream file(folder + filename);
+        ofstream file(folder + filename + ".txt");
         if (file.is_open()) {
             for (int i = 0; i < BOARD_SIZE; i++) {
                 for (int j = 0; j < BOARD_SIZE; j++) {
@@ -439,7 +480,7 @@ void LoadGame() {
     std::string directory = "SaveGame";  // Thư mục SaveGame
 
     for (const auto& entry : fs::directory_iterator(directory)) {
-        if (fs::is_regular_file(entry) && entry.path().extension().empty()) {
+        if (fs::is_regular_file(entry) && entry.path().extension() == ".txt") {
             GotoXY(55, i);
             std::cout << entry.path().stem() << std::endl;
             i++;
@@ -505,6 +546,7 @@ void LoadGame() {
     while (true) {
         filename.clear();
         cout << string(30, ' '); // Xóa nội dung cũ
+        ShowBlinkingCursor(true);
         setColor(Black);
         box(40, 20, 45, 5, "Enter the game name:");
         setColor(Pink2);
@@ -532,9 +574,9 @@ void LoadGame() {
                 cout << key;
             }
         }
-
+        ShowBlinkingCursor(false);
         // Kiểm tra tệp
-        ifstream file(folder + filename);
+        ifstream file(folder + filename + ".txt");
         if (file.is_open()) {
             file.close();
             break; // Nếu tệp tồn tại, thoát vòng lặp
@@ -550,11 +592,10 @@ void LoadGame() {
         }
     }
 
-
     loadBox();
     deleteBox();
     renameBox();
-    ifstream file(folder + filename);
+    ifstream file(folder + filename + ".txt");
     int selection = 0;
     while (true) {
         for (int i = 0; i < 3; i++) {
@@ -743,8 +784,9 @@ void LoadGame() {
                                 }
                                 else if (command == 'L') {
                                     clearScreen();
-                                    SaveGame();
+                                    updateGame(folder, filename + ".txt");
                                     clearScreen();
+                                    LoadGame();
                                     break;
                                 }
                             }
@@ -758,21 +800,39 @@ void LoadGame() {
                 playSound(3, 0);
                 clearScreen();
                 file.close();
-                DeleteFileWindows(folder + filename);
+                DeleteFileWindows(folder + filename + ".txt");
                 clearScreen();
                 LoadGame();
                 break;
             case 2:
                 playSound(3, 0);
                 clearScreen();
-                string filename2;
-                box(35, 8, 50, 5, "Enter a new name: ");
-                setColor(Red);
-                GotoXY(58, 9);
-                cin >> filename2;
+                ShowBlinkingCursor(true);
+                while (1) {
+                    setColor(Black);
+                    string filename2;
+                    box(35, 8, 50, 5, "Enter a new name: ");
+                    setColor(Red);
+                    GotoXY(58, 9);
+                    cin >> filename2;
+                    // Kiểm tra xem tên game đã tồn tại hay chưa
+                    if (isFileExist(folder + filename2 + ".txt")) {
+                        setColor(Red);
+                        GotoXY(38, 25);
+                        cout << "File already exists. Please choose another name." << endl;
+                        Sleep(2000);
+                        continue; // Yêu cầu nhập lại tên nếu trùng
+                    }
+                    else {
+                        file.close();
+                        RenameFile(folder + filename + ".txt", folder + filename2 + ".txt");
+                        playSound(3, 0);
+                        Sleep(2000);
+                        break;
+                    }
+                }
+                ShowBlinkingCursor(false);
                 setColor(Black);
-                file.close();
-                RenameFile(folder + filename, folder + filename2);
                 clearScreen();
                 LoadGame();
                 break;
@@ -790,4 +850,5 @@ void LoadGame() {
             }
         }
     }
+    ShowBlinkingCursor(true);
 }

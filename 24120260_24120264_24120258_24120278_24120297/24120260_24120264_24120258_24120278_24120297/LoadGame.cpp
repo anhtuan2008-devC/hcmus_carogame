@@ -408,7 +408,7 @@ void LoadGame() {
     cout << char(219) << char(219);
     GotoXY(22, 5);
     cout << char(219) << char(219) << char(220) << char(220) << char(220) << char(220);
-    // o
+    // O
     GotoXY(29, 2);
     cout << char(220) << char(219) << char(223) << char(223) << char(223) << char(219) << char(220);
     GotoXY(29, 3);

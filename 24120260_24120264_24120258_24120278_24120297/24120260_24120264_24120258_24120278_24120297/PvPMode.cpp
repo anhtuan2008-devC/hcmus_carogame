@@ -1,10 +1,5 @@
 ﻿#include "PvPMode.h"
 
-void gameBackground() {
-    SetConsoleOutputCP(CP_UTF8);
-    SetConsoleOutputCP(437);
-    setColor(112);
-}
 void vienPlayer() {
     // Viền X
     BOX(2, 16, 16, 10);

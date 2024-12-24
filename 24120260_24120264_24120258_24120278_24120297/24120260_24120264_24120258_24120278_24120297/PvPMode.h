@@ -6,7 +6,6 @@
 #include "Chessboard.h"
 #include "LoadGame.h"
 
-void gameBackground();
 void vienPlayer();
 void turnPlayer();
 int ProcessFinish(int pWhoWin);

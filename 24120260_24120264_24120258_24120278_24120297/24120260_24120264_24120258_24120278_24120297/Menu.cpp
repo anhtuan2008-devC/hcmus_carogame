@@ -1,8 +1,5 @@
 ﻿#include "Menu.h"
 
-int x = 50;
-int y = 5;
-
 void boxPlayGame() {
     BOX(49, 10, 21, 3);
     GotoXY(54, 10);
@@ -29,32 +26,7 @@ void boxExit() {
     cout << "EXIT";
 }
 
-// Hàm hiển thị nội dung của menu
-
-
-
 void trangtri() {
-
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
-    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-
-    // Lấy chiều rộng và chiều cao của cửa sổ console
-    int consoleWidth = csbi.srWindow.Right - csbi.srWindow.Left + 1;
-    int consoleHeight = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
-
-    // Chiều dài của chữ "CARO" là 7*4 (cho mỗi chữ), cộng thêm 3 khoảng cách giữa các chữ (3 khoảng trống)
-    int textWidth = 7 * 4 + 3 * 3;  // 7 ký tự cho mỗi chữ và 3 khoảng cách giữa các chữ
-    int textHeight = 5;  // Chữ "CARO" có 5 dòng (theo kích thước chữ)
-
-    // Tính toán vị trí để căn giữa chữ "CARO" theo chiều ngang
-    int startX = (consoleWidth - textWidth) / 2;
-    int startY = 0;  // Đặt ở dòng đầu tiên (dòng 0)
-
-    // Di chuyển đến vị trí căn giữa trên dòng đầu tiên
-    setColor(124);
-    GotoXY(startX, startY);
-
-    int x = 25, y = 0;
     SetConsoleOutputCP(CP_UTF8);
     setColor(124);
     cout << u8R"(
@@ -982,7 +954,6 @@ void hienthimenu() {
 
     } while (true);
 }
-
 
 int menuScreen() {
     ShowBlinkingCursor(false);

@@ -30,7 +30,6 @@ void gameBotText() {
     setColor(132);
     GotoXY(55, 29);
     cout <<"Esc - exit";
-
     setColor(112);
 }
 

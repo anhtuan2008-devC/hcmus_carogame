@@ -95,21 +95,4 @@
       <Filter>Resource Files</Filter>
     </Media>
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="PvP.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="PorEBg.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="PvE.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="BackPorE.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="Clear.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-  </ItemGroup>
 </Project>
